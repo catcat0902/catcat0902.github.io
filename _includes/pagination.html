@@ -1,18 +1,8 @@
-<!-- Pagination Links Start -->
-
-<div class="pagination">
-  <h4>
-    {% if paginator.previous_page %}
-    <a href="{{site.baseurl}}{{paginator.previous_page_path}}" class="previous"
-      >Newer Posts</a
-    >
-    {% endif %} {% if paginator.previous_page and paginator.next_page %} | {%
-    endif %} {% if paginator.next_page %}
-    <a href="{{site.baseurl}}{{paginator.next_page_path}}" class="next"
-      >Older Posts</a
-    >
-    {% endif %}
-  </h4>
+<div class="pagination clearfix">
+  {% if paginator.previous_page %}
+    <a href="..{{ paginator.previous_page_path }}" class="previous"><i class="fa fa-angle-left" aria-hidden="true"></i> Previous</a>
+  {% endif %}
+  {% if paginator.next_page %}
+    <a href="..{{ paginator.next_page_path }}" class="next">Next <i class="fa fa-angle-right" aria-hidden="true"></i></a>
+  {% endif %}
 </div>
-
-<!-- Pagination Links End -->

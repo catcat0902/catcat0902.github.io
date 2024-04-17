@@ -1,69 +1,44 @@
-<!-- Post Layout Start -->
-
-<!doctype html>
-<html lang="{{ site.lang }}">
-
-  {% include head.html %}
-
-  <body>
-
-    {% include navigation.html %}
-
-    <section id="post" class="container content-section text-center">
-      <div class="row">
-        <div class="col-md-10 col-md-offset-1">
-          <h1><strong>{{ page.title }}</strong></h1>
-          <h4>
-            <strong>{{ page.date | date_to_string }}</strong>
-            <small>
-              . category:
-              <a
-                class="category"
-                href="{{site.baseurl}}/categories/{{page.category | downcase}}.html"
-              >
-                {{ page.category }} </a
-              >.
-              <a href="{{site.baseurl}}{{page.url }}#disqus_thread">Comments</a>
-              <br />
-              {% for tag in page.tags %}
-                <a
-                  class="tag"
-                  href="{{site.baseurl}}/tags/{{tag | downcase}}.html"
-                  >#{{ tag }}</a
-                >
-              {% endfor %}
-            </small>
-          </h4>
-
-          <section class="text-justify">
-            {{ page.content | markdownify }}
-          </section>
-
-          {% include share.html %} 
-
-          {% include comments.html %} 
-
-          <hr />
-
-          {% if site.author_blurb %}
-            <div class="author row">
-              <img
-                class="col-xs-4 col-sm-3 col-md-2"
-                src="{{site.baseurl}}{{site.author_blurb_image}}"
-                alt="Me"
-              />
-              <p class="col-xs-8 col-sm-9 col-md-10">{{ site.author_blurb }}</p>
-            </div>
-          {% endif%}
+---
+layout: default
+---
+{% include calculate_relative_base.html %}
+{% capture post_url %}{{ relativebase }}{{ page.url }}{% endcapture %}
+{% assign post_url = post_url | replace: "//", "/" %}
+<section class="hidden">
+  <div class="post">
+      <a  class="post-list-title" href="{{ post_url }}">{{ page.title }}</a>
+      {% include post_meta.html type="post-card-meta" %}
+        <div class="post-excerpt">
+            {{ page.content | markdownify | strip_newlines | truncatewords: 100 }}<a class="read-more" href="{{ post_url }}"> read more</a>
         </div>
+  </div>
+</section>
+<div class="flex-container transparent">
+  {% include header.html %}
+  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+    {% include schema-meta.html %}
+    <div class="page-image">
+      <div class="cover-image" style="background: url('{{ relativebase }}assets/img/{{ page.img }}') center no-repeat; background-size: cover;"></div>
+    </div>
+    <div class="wrapper">
+      <div class="page-content">
+        <div class="header-page">
+          <h1 class="page-title">{{ page.title }}</h1>
+          {% include post_meta.html type="post-page-meta" %}
+        </div>
+        {% include sidebar.html context="post" class="side" id="sidebar" %}
+        {% if page.toc %}{% include sidebar-toc.html %}{% endif %}
+        {% include github-button.html %}
+        {{page.content | markdownify}}
+        {% include sidebar.html context="post" class="inline" id="post-end" %}
+        <div class="separator"></div>
+        {% include author-box.html %}
+        {% include recent-post.html %}
+        {% include newsletter.html %}
+        {% include comments.html %}
       </div>
-    </section>
-
-    {% include footer.html %} 
-
-    {% include js.html %}
-
-  </body>
-</html>
-
-<!-- Post Layout End -->
+    </div> <!-- End Wrapper -->
+  </article>
+  {% include search.html %}
+  {% include footer.html %}
+</div>
